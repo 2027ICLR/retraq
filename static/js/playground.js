@@ -1,4 +1,4 @@
-/* RFPI manifold playground.
+/* RetraQ manifold playground.
  * Everything here is computed exactly: behavior data are a dense set of points on a
  * 1-D curve in R^2 blurred by isotropic Gaussian noise of std sN (a Gaussian mixture).
  * For y = A + sigma Z the ideal flow's denoising map is the posterior mean
@@ -16,7 +16,7 @@
     { key: 'raw',    name: 'Raw ascent',  col: COL.red,    filt: false, retr: false },
     { key: 'filt',   name: 'Filter-only', col: COL.orange, filt: true,  retr: false },
     { key: 'rawR',   name: 'Raw + R',     col: COL.purple, filt: false, retr: true  },
-    { key: 'rfpi',   name: 'RFPI',        col: COL.green,  filt: true,  retr: true  },
+    { key: 'retraq',   name: 'RetraQ',      col: COL.green,  filt: true,  retr: true  },
   ];
 
   const S = {
@@ -251,7 +251,7 @@
     const k = Math.min(S.K, Math.floor(S.anim));
     tb.innerHTML = METHODS.map(m => {
       const p = S.paths[m.key][Math.min(k, S.paths[m.key].length - 1)], nb = nearest(p), f = M().f(nb.p), off = nb.d > Math.max(0.05, 4 * S.sN);
-      return `<tr${m.key === 'rfpi' ? ' class="ours"' : ''}><td><i style="background:${m.col}"></i>${m.name}</td><td>${f.toFixed(2)}</td><td style="color:${off ? COL.red : 'inherit'}">${nb.d.toFixed(3)}${off ? ' ✗' : ''}</td></tr>`;
+      return `<tr${m.key === 'retraq' ? ' class="ours"' : ''}><td><i style="background:${m.col}"></i>${m.name}</td><td>${f.toFixed(2)}</td><td style="color:${off ? COL.red : 'inherit'}">${nb.d.toFixed(3)}${off ? ' ✗' : ''}</td></tr>`;
     }).join('');
   }
 
@@ -314,5 +314,5 @@
     else clearTimeout(demoTimer);
   }, { threshold: 0.55 }).observe(cv);
   document.addEventListener('visibilitychange', () => { if (document.hidden) clearTimeout(demoTimer); else if (visible && !demoOn) scheduleDemo(400); });
-  window.__rfpiPlayground = { S, denoise, step, runPaths, nearest, METHODS, gradQ };
+  window.__retraqPlayground = { S, denoise, step, runPaths, nearest, METHODS, gradQ };
 })();
